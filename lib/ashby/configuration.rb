@@ -1,6 +1,19 @@
 # frozen_string_literal: true
 
 module Ashby
+  # Ashby::Configuration manages global settings for the Ashby API client.
+  #
+  # This module is intended to be extended by a class or module that needs
+  # to hold configuration settings such as the API token.
+  #
+  # Example:
+  #   Ashby::Configuration.configure do |config|
+  #     config.api_token = 'your-token'
+  #   end
+  #
+  #   Ashby::Configuration.config
+  #   # => { api_token: 'your-token' }
+  #
   module Configuration
     VALID_OPTIONS_KEYS = %i[api_token].freeze
     attr_accessor(*VALID_OPTIONS_KEYS)
