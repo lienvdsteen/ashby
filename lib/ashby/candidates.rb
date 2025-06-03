@@ -57,12 +57,10 @@ module Ashby
         sendNotifications: send_notifications
       }
 
-      begin
-        response = post('candidate.createNote', payload)
-        raise "Failed to create note: #{response['error']}" unless response['success']
+      response = post('candidate.createNote', payload)
+      raise "Failed to create note: #{response['error']}" unless response['success']
 
-        response['results']
-      end
+      response['results']
     end
   end
 end
