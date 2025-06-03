@@ -34,7 +34,7 @@ module Ashby
       payload[:requisitionId] = req_id.to_s if req_id
       payload[:title] = title if title
 
-      raise ArgumentError, 'You must provide at least an job title or a requisition id' if payload.empty?
+      raise ArgumentError, 'You must provide at least a job title or a requisition id' if payload.empty?
 
       response = post('job.search', payload)
       response['results']
