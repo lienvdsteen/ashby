@@ -21,7 +21,7 @@ module Ashby
     def self.find_by_id(id: nil)
       raise ArgumentError, 'Application ID is required' if id.to_s.strip.empty?
 
-      payload = { id: id }
+      payload = { applicationId: id }
       response = post('application.info', payload)
       response['results']
     end
