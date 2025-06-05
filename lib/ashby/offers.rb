@@ -23,5 +23,13 @@ module Ashby
       response = post('offer.info', payload)
       response['results']
     end
+
+    def self.find_by_application_id(application_id: nil)
+      raise ArgumentError, 'Application ID is required' if application_id.to_s.strip.empty?
+
+      payload = { applicationId: application_id }
+      response = post('offer.list', payload)
+      response['results']
+    end
   end
 end
