@@ -39,5 +39,9 @@ module Ashby
       response = post('job.search', payload)
       response['results']
     end
+
+    def self.templates
+      paginated_post('jobTemplate.list')
+    end
   end
 end

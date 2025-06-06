@@ -24,12 +24,20 @@ module Ashby
       response['results']
     end
 
-    def self.find_by_application_id(application_id: nil)
+    def self.offers_by_application_id(application_id: nil)
       raise ArgumentError, 'Application ID is required' if application_id.to_s.strip.empty?
 
       payload = { applicationId: application_id }
       response = post('offer.list', payload)
       response['results']
+    end
+
+    def self.most_recent_offer_by_application_id(application_id: nil)
+      raise ArgumentError, 'Application ID is required' if application_id.to_s.strip.empty?
+
+      payload = { applicationId: application_id }
+      response = post('offer.list', payload)
+      response['results'].max_by { |o| o['latestVersion']['createdAt'] }
     end
   end
 end

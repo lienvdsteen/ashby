@@ -8,6 +8,7 @@ require_relative 'ashby/departments'
 require_relative 'ashby/jobs'
 require_relative 'ashby/offers'
 require_relative 'ashby/applications'
+require_relative 'ashby/openings'
 
 # This module handles integration with Ashby's API
 # for recruitment and hiring processes
