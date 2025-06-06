@@ -1,17 +1,29 @@
 # frozen_string_literal: true
 
-require "rest-client"
-require "json"
+require 'rest-client'
+require 'json'
 
 module Ashby
+  # Ashby::Client is a low-level internal class that provides HTTP communication
+  # with the Ashby API.
+  #
+  # It defines base `post` and `paginated_post` methods for making JSON API calls,
+  # managing authentication, and handling paginated responses.
+  #
+  # This class is extended by endpoint-specific service classes (e.g., Jobs, Offers).
+  #
+  # Example usage:
+  #   Ashby::Client.post('job.info', { id: 'job_abc123' })
+  #   Ashby::Client.paginated_post('job.list')
+  #
+  # Note:
+  #   Ensure `Ashby.api_token` is set before making requests.
+  #
+  # TODO:
+  #   Consider implementing syncToken support for incremental pagination.
+  #
   class Client
-    API_URL = "https://api.ashbyhq.com"
-
-    def self.get(path, params = {})
-      url = build_url(path, params)
-      response = RestClient.get(url, headers)
-      JSON.parse(response.body)
-    end
+    API_URL = 'https://api.ashbyhq.com'
 
     def self.post(path, payload = {})
       url = build_url(path, {})
@@ -19,6 +31,32 @@ module Ashby
       JSON.parse(response.body)
     end
 
+    def self.paginated_post(path, payload = {}, limit: 100) # rubocop:disable Metrics/MethodLength
+      all_results = []
+      cursor = nil
+
+      loop do
+        paginated_payload = payload.dup
+        paginated_payload[:limit] = limit
+        paginated_payload[:cursor] = cursor if cursor
+
+        response = post(path, paginated_payload)
+
+        page_results = response['data'] || response['results'] || response
+
+        if page_results.is_a?(Array)
+          all_results.concat(page_results)
+        else
+          all_results << page_results
+        end
+
+        break unless response['moreDataAvailable'] && response['nextCursor']
+
+        cursor = response['nextCursor']
+      end
+
+      all_results
+    end
 
     def self.build_url(path, params)
       url = "#{API_URL}/#{path}"
@@ -30,8 +68,8 @@ module Ashby
     def self.headers
       token = "#{Ashby.api_token}:"
       {
-        Accept: "application/json",
-        Authorization: "Basic #{Base64::strict_encode64(token)}"
+        Accept: 'application/json',
+        Authorization: "Basic #{Base64.strict_encode64(token)}"
       }
     end
   end
