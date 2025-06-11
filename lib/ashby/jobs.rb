@@ -53,5 +53,25 @@ module Ashby
       response = post('job.create', payload)
       response['results']
     end
+
+    def self.remove_hiring_team_member(job_id, member_id, role_id)
+      payload = {}
+      payload[:jobId] = job_id.to_s if job_id
+      payload[:teamMemberId] = member_id if member_id
+      payload[:roleId] = role_id if role_id
+
+      response = post('hiringTeam.removeMember', payload)
+      response['results']
+    end
+
+    def self.add_hiring_team_member(job_id, member_id, role_id)
+      payload = {}
+      payload[:jobId] = job_id.to_s if job_id
+      payload[:teamMemberId] = member_id if member_id
+      payload[:roleId] = role_id if role_id
+
+      response = post('hiringTeam.addMember', payload)
+      response['results']
+    end
   end
 end
