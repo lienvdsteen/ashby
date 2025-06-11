@@ -47,7 +47,7 @@ module Ashby
     end
 
     # Creates a note on a candidates profile
-    def create_candidate_note(candidate_id, note_content, send_notifications: false) # rubocop:disable Metrics/MethodLength
+    def self.create_candidate_note(candidate_id, note_content, send_notifications: false)
       payload = {
         candidateId: candidate_id,
         note: note_content,
