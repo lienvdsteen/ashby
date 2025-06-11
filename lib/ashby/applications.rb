@@ -13,8 +13,8 @@ module Ashby
   #
   class Applications < Client
     # Fetches all openings with pagination support
-    def self.all
-      paginated_post('applications.list')
+    def self.all(payload = {})
+      paginated_post('application.list', payload)
     end
 
     # Finds an opening by its Ashby ID
