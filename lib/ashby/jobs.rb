@@ -40,8 +40,18 @@ module Ashby
       response['results']
     end
 
+    # Fetches all job templates
     def self.templates
       paginated_post('jobTemplate.list')
+    end
+
+    def self.create(payload)
+      required_fields = %i[title teamId locationId]
+      missing = required_fields.select { |f| payload[f].to_s.strip.empty? }
+      raise ArgumentError, "Missing required fields: #{missing.join(', ')}" if missing.any?
+
+      response = post('job.create', payload)
+      response['results']
     end
   end
 end
