@@ -25,7 +25,7 @@ module Ashby
       paginated_post('opening.list')
     end
 
-    # Finds an opening by its Ashby ID
+    # Finds an opening by email or name
     def self.find(email: nil, name: nil)
       payload = {}
       payload[:email] = email if email
@@ -41,8 +41,26 @@ module Ashby
     def self.find_by_id(id: nil)
       raise ArgumentError, 'Opening ID is required' if id.to_s.strip.empty?
 
-      payload = { id: id }
+      payload = { openingId: id }
       response = post('opening.info', payload)
+      response['results']
+    end
+
+    def self.set_status(id, state)
+      payload = {}
+      payload[:openingId] = id if id
+      payload[:openingState] = state if state
+
+      raise ArgumentError, 'You must provide the opening ID and the state' if payload.empty?
+
+      response = post('opening.setOpeningState', payload)
+      response['results']
+    end
+
+    def self.create(payload)
+      raise ArgumentError, 'No payload provided' if payload.empty?
+
+      response = post('opening.create', payload)
       response['results']
     end
   end

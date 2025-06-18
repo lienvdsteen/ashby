@@ -18,10 +18,13 @@ module Ashby
     end
 
     # Finds an opening by its Ashby ID
-    def self.find_by_id(id: nil)
+    def self.find_by_id(id: nil, expand: '')
       raise ArgumentError, 'Application ID is required' if id.to_s.strip.empty?
 
-      payload = { applicationId: id }
+      payload = {
+        applicationId: id,
+        expand: expand.strip.empty? ? [] : [expand]
+      }
       response = post('application.info', payload)
       response['results']
     end

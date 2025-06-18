@@ -11,6 +11,10 @@ require_relative 'ashby/applications'
 require_relative 'ashby/openings'
 require_relative 'ashby/users'
 require_relative 'ashby/job_postings'
+require_relative 'ashby/hiring_team'
+require_relative 'ashby/error'
+require_relative 'ashby/close_reasons'
+require_relative 'ashby/interviews'
 
 # This module handles integration with Ashby's API
 # for recruitment and hiring processes
