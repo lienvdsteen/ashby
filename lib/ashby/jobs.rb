@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# a4e6d71d-b125-4905-93a0-1a339e69b839
-
 module Ashby
   # Ashby::Jobs handles interactions with job-related endpoints in the Ashby API.
   #
@@ -15,15 +13,18 @@ module Ashby
   #
   class Jobs < Client
     # Fetches all jobs with pagination support
-    def self.all
-      paginated_post('job.list')
+    def self.all(payload = {})
+      paginated_post('job.list', payload)
     end
 
     # Finds a job by its Ashby ID
-    def self.find(id)
+    def self.find(id, expand: '')
       raise ArgumentError, 'Job ID is required' if id.to_s.strip.empty?
 
-      payload = { id: id }
+      payload = {
+        id: id,
+        expand: expand.strip.empty? ? [] : [expand]
+      }
       response = post('job.info', payload)
       response['results']
     end
@@ -54,26 +55,18 @@ module Ashby
       response['results']
     end
 
-    def self.remove_hiring_team_member(job_id, member_id, role_id)
-      payload = build_hiring_team_payload(job_id, member_id, role_id)
-      response = post('hiringTeam.removeMember', payload)
+    def self.set_status(job_id:, status:)
+      valid_statuses = %w[Draft Open Closed Archived]
+      raise ArgumentError, 'Job ID is required' if job_id.to_s.strip.empty?
+      raise ArgumentError, "Invalid status: #{status}" unless valid_statuses.include?(status)
+
+      payload = {
+        jobId: job_id,
+        status: status
+      }
+
+      response = post('job.setStatus', payload)
       response['results']
-    end
-
-    def self.add_hiring_team_member(job_id, member_id, role_id)
-      payload = build_hiring_team_payload(job_id, member_id, role_id)
-      response = post('hiringTeam.addMember', payload)
-      response['results']
-    end
-
-    private
-
-    def self.build_hiring_team_payload(job_id, member_id, role_id)
-      payload = {}
-      payload[:jobId] = job_id.to_s if job_id
-      payload[:teamMemberId] = member_id if member_id
-      payload[:roleId] = role_id if role_id
-      payload
     end
   end
 end
