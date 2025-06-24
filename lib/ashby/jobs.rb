@@ -55,7 +55,7 @@ module Ashby
     def self.update(id: nil, payload: {})
       raise ArgumentError, 'You must provide a job id' if id.nil?
 
-      payload[:id] = id
+      payload[:jobId] = id
       post('job.update', payload)['results']
     end
 
