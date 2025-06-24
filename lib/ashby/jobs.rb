@@ -25,8 +25,7 @@ module Ashby
         id: id,
         expand: expand.strip.empty? ? [] : [expand]
       }
-      response = post('job.info', payload)
-      response['results']
+      post('job.info', payload)['results']
     end
 
     # Searches for jobs based on requisition ID or title
@@ -37,8 +36,7 @@ module Ashby
 
       raise ArgumentError, 'You must provide at least a job title or a requisition id' if payload.empty?
 
-      response = post('job.search', payload)
-      response['results']
+      post('job.search', payload)['results']
     end
 
     # Fetches all job templates
@@ -51,8 +49,13 @@ module Ashby
       missing = required_fields.select { |f| payload[f].to_s.strip.empty? }
       raise ArgumentError, "Missing required fields: #{missing.join(', ')}" if missing.any?
 
-      response = post('job.create', payload)
-      response['results']
+      post('job.create', payload)['results']
+    end
+
+    def self.update(id: nil, payload: {})
+      raise ArgumentError, 'You must provide a job id' if id.nil?
+
+      post('job.update', payload)['results']
     end
 
     def self.set_status(job_id:, status:)
@@ -65,8 +68,7 @@ module Ashby
         status: status
       }
 
-      response = post('job.setStatus', payload)
-      response['results']
+      post('job.setStatus', payload)['results']
     end
   end
 end
