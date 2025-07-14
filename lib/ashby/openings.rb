@@ -37,6 +37,15 @@ module Ashby
       response['results']
     end
 
+    # Searches for openings by the identifier
+    def self.search(identifier: nil)
+      raise ArgumentError, 'You must provide an identifier' if identifier.to_s.strip.empty?
+
+      payload = { identifier: identifier }
+      response = post('opening.search', payload)
+      response['results']
+    end
+
     # Finds an opening by its Ashby ID
     def self.find_by_id(id: nil)
       raise ArgumentError, 'Opening ID is required' if id.to_s.strip.empty?
