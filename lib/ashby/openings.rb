@@ -41,7 +41,7 @@ module Ashby
     def self.search(identifier: nil)
       raise ArgumentError, 'You must provide an identifier' if identifier.to_s.strip.empty?
 
-      payload = { identifier: identifier }
+      payload = { identifier: identifier.to_s }
       response = post('opening.search', payload)
       response['results']
     end
