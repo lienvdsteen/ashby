@@ -14,8 +14,10 @@ module Ashby
   #
   class JobPostings < Client
     # Fetches all job postings
-    def self.all(active_only: true)
+    def self.all(active_only: true, job_board_id: nil)
       payload = { active_only: active_only }
+      payload[:job_board_id] = job_board_id if job_board_id
+
       response = post('jobPosting.list', payload)
       response['results']
     end
