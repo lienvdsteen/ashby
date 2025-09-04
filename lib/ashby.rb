@@ -17,6 +17,7 @@ require_relative 'ashby/close_reasons'
 require_relative 'ashby/interviews'
 require_relative 'ashby/custom_fields'
 require_relative 'ashby/feedback'
+require_relative 'ashby/postings'
 
 # This module handles integration with Ashby's API
 # for recruitment and hiring processes
