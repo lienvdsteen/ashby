@@ -61,7 +61,6 @@ module Ashby
     def self.build_url(path, params)
       url = "#{API_URL}/#{path}"
       url += "?#{URI.encode_www_form(params)}" unless params.empty?
-      p url
       url
     end
 

@@ -8,9 +8,30 @@ on:
   pull_request:
 
 jobs:
+  push:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    name: Push gem to RubyGems.org
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+      # Set up
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: ruby
+
+      # Release
+      - uses: rubygems/release-gem@v1  
+      
   build:
     runs-on: ubuntu-latest
-    name: Ruby ${{ matrix.ruby }}
+    name: Runs specs and rubocop
     strategy:
       matrix:
         ruby:
@@ -23,5 +44,9 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - name: Run the default task
-        run: bundle exec rake
+      - name: Run specs
+        run: bundle exec rspec
+      - name: Security audit dependencies
+        run: bundle exec bundler-audit --update
+      - name: Lint Ruby files
+        run: bundle exec rubocop --parallel

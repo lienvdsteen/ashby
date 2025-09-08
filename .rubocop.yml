@@ -1,2 +1,8 @@
+inherit_from: .rubocop_todo.yml
+
 AllCops:
   NewCops: enable
+
+plugins:
+  - rubocop-rake
+  - rubocop-rspec
