@@ -2,6 +2,6 @@
 
 RSpec.describe Ashby do
   it 'has a version number' do
-    expect(Ashby::VERSION).not_to be nil
+    expect(Ashby::VERSION).not_to be_nil
   end
 end
