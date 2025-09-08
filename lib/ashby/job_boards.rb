@@ -3,7 +3,8 @@
 module Ashby
   class JobBoards < Client
     def self.all
-      post('jobBoard.list')
+      response = post('jobBoard.list')
+      response['results']
     end
   end
 end
