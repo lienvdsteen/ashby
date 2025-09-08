@@ -6,15 +6,13 @@ Gem::Specification.new do |spec|
   spec.name = 'ashby'
   spec.version = Ashby::VERSION
   spec.authors = %w[Lien Van Den Steen Olly Marsay]
-  spec.email = %w[lien@monarchmoney.com ojmarsay@gmail.com]
+  spec.email = %w[lien@monarchmoney.com ojmarsay@gmail.com lienvandensteen@gmail.com]
 
-  spec.summary = 'Write a short summary, because RubyGems requires one.'
-  spec.description = 'Write a longer description or delete this line.'
+  spec.summary = "Ruby wrapper for Ashby's API."
+  spec.description = "Opiniated Ruby wrapper for Ashby's API. You can find Ashby's API documentation at https://developers.ashbyhq.com/reference/."
   spec.homepage = 'https://github.com/lienvdsteen/ashby'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 3.1.0'
-
-  spec.metadata['allowed_push_host'] = "TODO: Set to your gem server 'https://example.com'"
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/lienvdsteen/ashby'
